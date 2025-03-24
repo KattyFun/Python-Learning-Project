@@ -1,0 +1,149 @@
+'''
+You are given the following data, which is in list format: Your task is to analyze and obtain insights from
+this data using Numpy. Your first task is to create one array from the three lists. You will use this array to 
+to answer the questions below.
+
+'''
+
+names = ['Ali','Ahmad','Sarah','Jose','Liz','Jane']
+grades = [45,65,75,35,85,40]
+classes = ['a','c','e','g','e','f']
+
+'''
+Question 1:
+1. Create one array from the 3 lists.
+2. Write code that returns all the names and the number of students from class 'e' who got over 50 marks.
+
+Solution:
+Step 1: Retrieve values in the array, utilize Boolean indexing.
+1. Making an array from the 3 lists is the first thing.
+'''
+
+import numpy as np
+
+names = ['Kelly','Ben','Jack','Muhammand','Jose','Liz']
+grades = [45,65,75,35,85,40]
+classes = ['a','c','e','g','e','f']
+student_array = np.array([names,grades,classes])
+print(student_array)
+
+'''
+Step 2: 
+Going to slice 3 arrays from the array above.
+Note: For boolean indexing to work, arrays must be of the same length.
+1. Use np.where() function to filter the arrays for students who got over 50 marks.
+2. where () function will return the index of the names in class 'e' who got over 50 marks.
+3. Use this index to access the names from the 'names' array.
+'''
+
+# Slicing names from array
+names = student_array[0:1,0:]
+
+# Slicing grades from array and converting array to int
+grades = student_array[1:2,0:].astype(int)
+
+# Slicing classes from array
+classes = student_array[2:3,0:]
+
+# find the index of students in class 'e' who got over 50
+indices = np.where((classes == 'e') & (grades > 50))
+
+# Use the indices to get the number of the students
+over_50_names = len(names[indices])
+
+# Use the indices to get the names of the students.
+class_e_students_over_50 = names[indices]
+
+print("Students from class 'e' with over 50 are: ",class_e_students_over_50)
+print(f"Number Students who got over 50 marks in class 'e' are: {over_50_names}")
+
+'''
+Question 2:
+1. Write code that returns all the students who got less than 75 marks.
+
+Step 3: Two solutions for this problem.
+1. To find the names of the students that got over 75 marks, use where() function.
+2. This will return a list of students who got less than 75 marks.
+'''
+
+# Find indices of students who got less than 75 marks.
+indices = np.where(grades < 75)
+
+# Use the indices to get the names of the students.
+less_75_marks = names[indices]
+print(less_75_marks)
+
+# Alternative solution for Question 2:
+
+# Get names over 75 marks:
+names_75 = names[grades < 75]
+
+# Use the list function to return a list of names
+print(list(names_75))
+
+'''
+Question 3:
+1. Write code that returns how many marks a student named Liz got.
+
+Step 4: Similar to previous question, only this time we are looking for a specific name.
+1. Use np.where() function.
+2. Using the np.where() function, we can find name:
+3. First, use np.where() function to find the index of the female named 'Liz'.
+4. Use this index to get Liz's grades from the grades array.
+'''
+
+# Find the index of the student named 'Liz'
+index = np.where(names == 'Liz')
+
+# Use the index to get the student's marks.
+liz_marks = int(grades[index])
+print(f"Liz got {liz_marks} marks")
+
+'''
+Question 4:
+Which students got the highest marks.
+
+Step 5: Use argmax() function to return the index of the highest integer in the 'grades' array.
+2. Use index to extract the name of the student who received the highest marks from the 'names' array.
+Alternative way:
+1. Use Boolean indexing. Return an array with the name of the student with the highest marks.
+
+Both codes will return 'Jose' as the student who got the highest marks.
+'''
+
+# Find the index of the highest grade
+highest_index = np.argmax(grades)
+
+# Use the index to find the corresponding name
+name = names[:, highest_index]
+print(f'The student who got the highest marks is, {"".join(name)}')
+
+# Second solution: Boolean indexing 
+
+# getting the name of the student
+name = names[grades == np.max(grades)]
+
+print(f'The student who got the highest marks is, {name[0]}')
+
+'''
+Question 5:
+1. What is the longest name in the array, what is the index?
+
+1. Use slicing to get access a subarray of all the names in the student_array.
+2. Return the student with the longest name and their index, use np.char.str_len() function 
+to return a list of the lengths of all the strings in the sliced subarray.
+3. Use np.argmax() function to return the index of the longest string in the array.
+4. The index will be used to fetch the longest word from the student_array.
+'''
+
+# find length of each word in the array
+longest_word = np.char.str_len(student_array[0:1,0:])
+
+# find the index of the longest word
+index_of_longest_word = np.argmax(longest_word)
+
+# find the largest name
+longest_word = student_array[:,index_of_longest_word]
+
+print(f'The longest name is sitting at index: {index_of_longest_word}')
+print(f'The longest name is {longest_word[0]}')
