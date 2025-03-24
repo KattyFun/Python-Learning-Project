@@ -1,6 +1,12 @@
 '''
-This project is created from dummy data.
+This project is created from synthetic data for learning purposes.
 Reference: Ayodele Oluleye(2023).
+'''
+
+'''
+Objective:
+This project is used to process text data before it is being analyzed.
+Libraries I used for this project are nltk, pandas,string and contractions.
 '''
 
 # Import relevant libraries
