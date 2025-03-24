@@ -1,4 +1,9 @@
 '''
+This learning module is based on synthesis data. 
+Reference: Benjamin Bennett Alexander,(2024). 50 days of data analysis with python. Las Vegas,NV.
+'''
+
+'''
 For this challenge, you are going to work with the data below.
 You are going to use NumPy functionality to answer questions using the data.
 This challenge wsill test your ability to use slicing to extract specific columns or rows
