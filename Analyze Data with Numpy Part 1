@@ -1,4 +1,9 @@
 '''
+This learning module is based on synthesis data. 
+Reference: Benjamin Bennett Alexander,(2024). 50 days of data analysis with python. Las Vegas,NV.
+'''
+
+'''
 You are given the following data, which is in list format: Your task is to analyze and obtain insights from
 this data using Numpy. Your first task is to create one array from the three lists. You will use this array to 
 to answer the questions below.
