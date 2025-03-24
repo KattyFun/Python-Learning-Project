@@ -1,0 +1,169 @@
+'''
+For this challenge, you are going to work with the data below.
+You are going to use NumPy functionality to answer questions using the data.
+This challenge wsill test your ability to use slicing to extract specific columns or rows
+of the data and perform operation on them. 
+You will import a CSV file called names_age_sex_data.
+'''
+
+'''
+Question 1:
+1. Your task is to import the CSV file using NumPy's genfromtxt() function.
+a. Transpose the array
+b. Using slicing, create three arrays;
+an array of all the names in the column,
+an array of all the ages in the column,
+an array of all the gender/sexes in the column.
+'''
+
+'''
+Question 1:
+Solution:
+
+1. This challenge is about using NumPy to analyze data. The first thing to do is import
+the names_age_sex_data using the np.genfromtxt() function.
+This function will import CSV file.
+Ensure that you pass a delimiter so that your data can be sepaparated.
+'''
+
+import numpy as np
+arr = np.genfromtxt("names_age_sex_data.csv",delimiter= ",",dtype='U7')
+print(arr[:5])
+
+'''
+This code returns an array of the data in the CSV file. The dtype 
+parameter set to "U7" specifies that the column should be treated
+as Unicode strings of length up to 7 characters.
+'''
+
+'''
+Question 1 Part a:
+The next thing that we will do is transpose the data. 
+Transposing simply means swapping the columns with the row,
+effectively making columns become rows and vice versa.
+We are going to use the transpose() method.
+'''
+
+transposed_arr = arr.transpose()
+print(transposed_arr)
+
+'''
+Question 1:
+b. The next thing is to slice three arrays from the transposed array.
+First, we will slice the "names" from the array.
+Then, we will proceed to slice "age" and "gender".
+Here is the code below:
+'''
+
+# Slicing names
+names = transposed_arr[0:1,1:]
+print(names)
+
+# slicing age
+age = transposed_arr[2:3,1:]
+print(age)
+
+# slicing sex
+gender = transposed_arr[1:2,1:]
+print(gender)
+
+'''
+Question 2:
+1. Using Numpy,write code that returns all the names of people 
+who are 56 years old.
+'''
+
+'''
+Solution:
+1. We are going to use Boolean indexing to return the names of people 
+who are 56 years old.
+
+Jos and Rob are 56 years old.
+'''
+
+# Using Boolean slicing to access names
+aged_56 = names[age == '56']
+print(aged_56) # Frank 
+
+'''
+Question 3:
+1. How many people are aged 44 or under ?
+'''
+
+'''
+Question 3: Solution
+We are going to use Boolean indexing again to find the names 
+of people aged 44 and under. We will use the shape attribute 
+to find the number of people in the array. 
+'''
+
+# using Boolean slicing to access names
+aged_44_under = names[age <= '44']
+print(aged_44_under) # Frank, Rob, Jos
+aged_44_under_num = np.shape(aged_44_under) 
+print("The number of people aged 44 and under is ", aged_44_under_num[0])
+
+# The number of people aged 44 and under is  5. 
+# We get the tuple of 5 because there is 5 people under 44.
+
+'''
+Question 4:
+1. write another code snippet to return an array of all the males in the
+dataset. How many males are in the dataset?
+'''
+
+'''
+Question 4: Solution
+First, we are going to filter the "names" array to return only males.
+Then we will use the shape() function to find how many males are in 
+the array.
+'''
+
+# Number of males in the array
+males = names[gender =='Male']
+
+# Number of males in the array
+males_number_in_array = np.shape(males)
+print(males)
+print('The number of males is: ',males_number_in_array[0])
+
+'''
+Question 5:
+1. Calculate the average age of all the females in the table.
+'''
+
+'''
+Question 5: solution
+First, we will convert the "age" array into an integer data type. 
+This will make it possible for us to calculate the average.
+We are going to use the "gender" array to filter the "age"
+array for female names and calculate the mean.
+'''
+
+# Converting age data into int data type
+age = age.astype(int)
+
+# calculating the average age of females
+average_age = age[gender == 'Female'].mean()
+print("The average female age is ",average_age)
+
+'''
+Question 6:
+1. Calculate the average age of people named Olivia and Kate
+'''
+
+'''
+Question 6: Solution
+1. To calculate the average age of persons named olivia and Kate,
+we will first filter the "age" array for the ages of people named
+Olivia and Kate. We will then use the ages to create an array 
+and calculate the mean.
+'''
+
+# Filter the names array and calculating mean
+olivia_age = age[names == 'Olivia']
+leo_age = age[names == 'Leo']
+
+# Create array and calculate the average age
+average = np.array([olivia_age, leo_age]).mean()
+print(f"Average age of persons named Olivia and Leo is: {average:2f} ")
