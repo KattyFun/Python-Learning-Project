@@ -1,0 +1,129 @@
+'''
+This project is created from synthetic data for learning purposes.
+Reference: Ayodele Oluleye(2023).
+'''
+
+'''
+Introduction and Objectives:
+This report details the functionality and implications of a Python script designed to process customer review data.
+The primary objective of the script is to prepare textual review data for subsequent analysis by performing key natural language processing (NLP) tasks. 
+These tasks include segmenting the review text into individual words (tokenization), removing common and less informative English words (stop word removal), 
+and conducting an initial exploration of the data through the visualization of word frequencies. The process begins by loading review data from a CSV file. 
+Exploratory data analysis is then performed to understand the distribution of words. Following this, the script refines the data by tokenizing the text and removing stop words. 
+Another round of exploratory analysis is conducted on the processed text to observe the changes in word frequencies. Finally, the original data along with the processed versions are 
+savedinto a new CSV file.
+The analysis reveals that the script successfully implements a basic NLP pipeline for cleaning and exploring textual data.
+The comparison of word frequency visualizations before and after stop word removal effectively demonstrates the impact of this preprocessing step, highlighting the more content-rich terms present in the reviews. The project utilizes Python as its programming language and leverages prominent data science libraries such as pandas for data manipulation and storage, matplotlib for generating visualizations, and nltk for performing NLP-specific tasks like tokenization and stop word removal. The processed data, containing tokenized and stop word-removed reviews, holds significant potential for further in-depth analyses, including sentiment analysis to gauge customer opinions, topic modeling to identify underlying themes, or the development of recommendation systems based on review content. The technical choices made in this script reflect a standard approach to initiating NLP projects, focusing on fundamental preprocessing steps to prepare text data for more sophisticated analytical techniques.
+
+'''
+
+'''
+Libraries used:
+
+pandas
+Loading the "cleaned_reviews_data.csv" file into a DataFrame; creating new columns to store processed data; exporting the final DataFrame to "processed_reviews_data.csv".
+matplotlib
+Generating bar plots to visualize the frequency of the top N words before and after stop word removal.
+nltk
+Tokenizing the 'review' text into individual words using word_tokenize; providing a list of common English stop words for removal.
+
+'''
+
+
+
+# Removing Stop words
+
+#Import relevant libraries
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import string
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+#Load dataset
+
+reviews_data = pd.read_csv("cleaned_reviews_data.csv")
+
+#Inspect first 5 rows and data types of the dataset
+
+print(reviews_data.head())
+print(reviews_data.shape)
+
+#Tokenize data
+
+reviews_data['reviews_tokenized'] = reviews_data['reviews_cleaned'].apply(word_tokenize)
+
+# Visualise most common words
+def combine_words(word_list):    
+    all_words = []
+    for word in word_list:
+        all_words += word
+    return all_words
+def count_topwords(all_words):
+    counts = dict()
+    for word in all_words:
+        if word in counts:
+            counts[word] += 1
+        else:
+            counts[word] = 1
+
+    word_count = pd.DataFrame([counts])
+    word_count_transposed = word_count.T.reset_index()
+    word_count_transposed.columns = ['words','word_count']
+    word_count_sorted = word_count_transposed.sort_values("word_count",ascending = False)
+    word_count_sorted
+    return word_count_sorted[:20]
+reviews = reviews_data['reviews_tokenized']
+reviews_words =  combine_words(reviews)
+print(reviews_words[:10])
+
+reviews_topword_count = count_topwords(reviews_words)
+print(reviews_topword_count.head())
+
+# Custom color palette with 20 specific colors.
+custom_palette = [
+    "tomato", "skyblue", "limegreen", "orchid", "gold",
+    "cornflowerblue", "magenta", "teal", "salmon", "plum",
+    "peru", "turquoise", "coral", "mediumpurple", "seagreen",
+    "darkorange", "lightblue", "violet", "darkgreen", "chocolate"
+]
+
+
+
+plt.figure(figsize= (18,10))
+
+sns.barplot(data = reviews_topword_count ,x= reviews_topword_count['words'], y= reviews_topword_count['word_count'], palette=custom_palette)
+plt.show()
+
+#Remove Stop words
+
+stop_words = set(stopwords.words('english'))
+reviews_data['reviews_no_stopwords'] = reviews_data['reviews_tokenized'].apply(lambda x: [word for word in x if word not in stop_words])
+print(reviews_data.head())
+
+#Remove Stop words
+stop_words = set(stopwords.words('english'))
+reviews_data['reviews_no_stopwords'] = reviews_data['reviews_tokenized'].apply(lambda x: [word for word in x if word not in stop_words])
+print(reviews_data.head())
+
+reviews_data['reviews_cleaned_stopwords'] = [' '.join(l) for l in reviews_data['reviews_no_stopwords']]
+print(reviews_data.head())
+
+#Visualise most common words without stop words
+reviews_no_stopwords = reviews_data['reviews_no_stopwords']
+reviews_words =  combine_words(reviews_no_stopwords)
+print(reviews_words[:10])
+
+reviews_topword_count = count_topwords(reviews_words)
+print(reviews_topword_count.head())
+
+plt.figure(figsize= (18,10))
+
+sns.barplot(data = reviews_topword_count ,x= reviews_topword_count['words'], y= reviews_topword_count['word_count'], palette='Set2' )
+plt.show()
+
+#Export Clean Data
+reviews_data[['Review','Liked',"reviews_cleaned",'reviews_cleaned_stopwords']].to_csv("cleaned_reviews_no_stopwords_data2.csv",index = False)
