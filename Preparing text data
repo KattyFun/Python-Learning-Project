@@ -5,8 +5,30 @@ Reference: Ayodele Oluleye(2023).
 
 '''
 Objective:
-This project is used to process text data before it is being analyzed.
-Libraries I used for this project are nltk, pandas,string and contractions.
+This report details the process of preparing textual review data for a bike sales dataset. 
+The primary objective is to transform raw, unstructured text into a clean and structured format suitable for downstream analytical tasks such as sentiment analysis or topic modeling. 
+The process involves a series of text preprocessing techniques applied using the Python programming language and several key libraries.
+'''
+
+'''
+Project Environment
+The data processing was conducted within a Python environment, leveraging the capabilities of several specialized libraries. 
+The pandas library was instrumental in handling the dataset, providing data structures and functions for efficient manipulation and analysis of tabular data, including reading the CSV file containing the reviews [Insight 2]. 
+For the core text processing tasks, the Natural Language Toolkit (nltk) library was employed. 
+This library offers a wide range of tools for tokenization, stop word removal, and other natural language processing techniques. 
+Specifically, functionalities for tokenizing text into individual words and accessing lists of common English stop words were utilized. 
+Additionally, the contractions library was used to expand common English contractions present in the text. 
+The download of various NLTK resources, including punkt, stopwords, wordnet, averaged_perceptron_tagger, vader_lexicon, and omw-1.4, suggests a comprehensive approach to natural language processing, potentially encompassing tasks beyond the immediate scope of data cleaning, such as part-of-speech tagging and sentiment analysis
+
+'''
+
+'''
+Project Scope
+The focus of this project is specifically on the 'Review' column within the "bike_sales2.csv" dataset. 
+The goal is to apply a series of transformations to this textual data to prepare it for further analysis. 
+The transformations performed include expanding contractions, breaking down the text into individual words (tokenization), converting all text to lowercase, and removing punctuation marks. 
+These steps are crucial for standardizing the text data and removing noise, thereby making it more amenable to computational analysis.
+The project's scope is limited to these preprocessing steps and does not extend to in-depth exploratory data analysis or the development of predictive models.
 '''
 
 # Import relevant libraries
