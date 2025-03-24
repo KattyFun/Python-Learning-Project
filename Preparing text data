@@ -1,0 +1,64 @@
+'''
+This project is created from dummy data.
+Reference: Ayodele Oluleye(2023).
+'''
+
+# Import relevant libraries
+import pandas as pd
+import string
+import nltk
+
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+import contractions
+import nltk
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('vader_lexicon')
+nltk.download('omw-1.4')
+nltk.download('punkt')
+
+
+# Load dataset
+reviews_data = pd.read_csv("bike_sales2.csv")
+
+#Inspect first 5 rows and data types of the dataset
+print(reviews_data.head())
+
+print(reviews_data.shape)
+
+#Expand Contractions
+
+# This replaces NaN values in the 'Review' column with an empty string.
+reviews_data['Review'] = reviews_data['Review'].fillna('')
+
+
+reviews_data['no_contractions'] = reviews_data['Review'].apply(lambda x: [contractions.fix(word) for word in x.split()])
+print(reviews_data.head(7))
+
+reviews_data['reviews_no_contractions'] = [' '.join(l) for l in reviews_data['no_contractions']]
+print(reviews_data.head(7))
+
+#Tokenize data
+reviews_data['reviews_tokenized'] = reviews_data['reviews_no_contractions'].apply(word_tokenize)
+print(reviews_data.head(7))
+
+#Convert data to lower case
+reviews_data['reviews_lower'] = reviews_data['reviews_tokenized'].apply(lambda x: [word.lower() for word in x])
+print(reviews_data.head())
+
+#Remove punctuations
+
+punctuations = string.punctuation
+reviews_data['reviews_no_punctuation'] = reviews_data['reviews_lower'].apply(lambda x: [word for word in x if word not in punctuations])
+print(reviews_data.head())
+
+#Convert output back to string
+reviews_data['reviews_cleaned'] = [' '.join(l) for l in reviews_data['reviews_no_punctuation']]
+print(reviews_data.head())
+
+#Export Cleaned Text data
+reviews_data[['Review','Liked','reviews_cleaned']].to_csv('cleaned_bike_sales2.csv',index = False)
+
